@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Анастасия Васинская](https://up.htmlacademy.ru/javascript/17/user/811447).
-* Наставник: `Неизвестно`.
+- Студент: [Анастасия Васинская](https://up.htmlacademy.ru/javascript/17/user/811447).
+- Наставник: [Денис Байдаров](https://htmlacademy.ru/profile/4er).
 
 ---
 
