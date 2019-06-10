@@ -20,12 +20,25 @@ var getRandomNumber = function (start, finish) {
   return Math.round(Math.random() * (Math.abs(finish - start)) + start);
 };
 
+var shuffle = function (arr) {
+  var j;
+  var temp;
+  for (var i = arr.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    temp = arr[j];
+    arr[j] = arr[i];
+    arr[i] = temp;
+  }
+  return arr;
+};
+
 var generatePins = function (imgNumber, typesOffer, startX, finishX, startY, finishY, pinsAmount) {
   var pins = [];
+  imgNumber = shuffle(IMG_NUMBER);
   for (var i = 0; i < pinsAmount; i++) {
     var pin = {
       'author': {
-        'avatar': 'img/avatars/user' + getRandomItem(imgNumber) + '.png'
+        'avatar': 'img/avatars/user' + imgNumber[i] + '.png'
       },
 
       'offer': {
@@ -50,7 +63,8 @@ var createPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = 'Метка объявления';
-  pinElement.style = 'left: ' + (pin.location.x - PIN_WIDTH * 0.5) + 'px; top: ' + (pin.location.y - PIN_HEIGHT) + 'px;';
+  pinElement.style.left = pin.location.x - PIN_WIDTH * 0.5 + 'px';
+  pinElement.style.top = pin.location.y - PIN_HEIGHT + 'px';
   return pinElement;
 };
 
