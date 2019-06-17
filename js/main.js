@@ -95,7 +95,7 @@ pinMain.addEventListener('mouseup', function () {
 var generatePins = function (imgNumber, typesOffer, startX, finishX, startY, finishY, pinsAmount) {
   var pins = [];
   imgNumber = shuffle(IMG_NUMBER);
-  for (i = 0; i < pinsAmount; i++) {
+  for (var i = 0; i < pinsAmount; i++) {
     var pin = {
       'author': {
         'avatar': 'img/avatars/user' + imgNumber[i] + '.png'
@@ -132,7 +132,7 @@ var addPins = function () {
   var mapPins = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
   var pins = generatePins(IMG_NUMBER, TYPE_OFFER, START_X, FINISH_X, START_Y, FINISH_Y, PINS_AMOUNT);
-  for (i = 0; i < pins.length; i++) {
+  for (var i = 0; i < pins.length; i++) {
     fragment.appendChild(createPin(pins[i]));
   }
   mapPins.appendChild(fragment);
