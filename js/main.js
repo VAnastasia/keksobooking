@@ -1,7 +1,5 @@
 'use strict';
 
-document.querySelector('.map').classList.remove('map--faded');
-
 var IMG_NUMBER = ['01', '02', '03', '04', '05', '06', '07', '08'];
 var TYPE_OFFER = ['palace', 'flat', 'house', 'bungalo'];
 var PINS_AMOUNT = 8;
@@ -11,6 +9,19 @@ var START_Y = 130;
 var FINISH_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 87;
+var MAIN_PIN_INACTIVE_HALF_HEIGHT = 65 * 0.5;
+
+var map = document.querySelector('.map');
+var pinMain = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var addressValue = adForm.querySelector('#address');
+var fieldsets = document.querySelectorAll('fieldset');
+var filters = document.querySelector('.map__filters');
+var selectsFilter = filters.querySelectorAll('select');
+
+// вспомогательные функции
 
 var getRandomItem = function (array) {
   return array[Math.round(Math.random() * (array.length - 1))];
@@ -31,6 +42,61 @@ var shuffle = function (arr) {
   }
   return arr;
 };
+
+// функция дезактивации страницы
+
+var inactivePage = function () {
+  for (var j = 0; j < selectsFilter.length; j++) {
+    selectsFilter[j].setAttribute('disabled', 'true');
+  }
+
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].setAttribute('disabled', 'true');
+  }
+};
+
+// функция активации страницы
+
+var activePage = function () {
+  map.classList.remove('map--faded');
+
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].removeAttribute('disabled');
+  }
+
+  for (var j = 0; j < selectsFilter.length; j++) {
+    selectsFilter[j].removeAttribute('disabled');
+  }
+
+  adForm.classList.remove('ad-form--disabled');
+
+  addPins();
+
+  pinMain.removeEventListener('mouseup', activePage);
+};
+
+// функция определения координат метки
+
+var defineCoordinates = function (element, elementWidth, elementHeight) {
+  var mainPinX = element.offsetLeft;
+  var mainPinY = element.offsetTop;
+  addressValue.value = Math.round(mainPinX + elementWidth * 0.5) + ', ' + Math.round(mainPinY + elementHeight);
+};
+
+// неактивное состояние страницы
+
+inactivePage();
+
+defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
+
+// обработчики на главной метке
+
+pinMain.addEventListener('mouseup', activePage);
+pinMain.addEventListener('mouseup', function () {
+  defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
+});
+
+// отрисовка похожих объявлений
 
 var generatePins = function (imgNumber, typesOffer, startX, finishX, startY, finishY, pinsAmount) {
   var pins = [];
@@ -77,5 +143,3 @@ var addPins = function () {
   }
   mapPins.appendChild(fragment);
 };
-
-addPins();
