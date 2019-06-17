@@ -18,6 +18,8 @@ var pinMain = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var addressValue = adForm.querySelector('#address');
 var fieldsets = document.querySelectorAll('fieldset');
+var filters = document.querySelector('.map__filters');
+var selectsFilter = filters.querySelectorAll('select');
 
 // вспомогательные функции
 
@@ -32,7 +34,7 @@ var getRandomNumber = function (start, finish) {
 var shuffle = function (arr) {
   var j;
   var temp;
-  for (i = arr.length - 1; i > 0; i--) {
+  for (var i = arr.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));
     temp = arr[j];
     arr[j] = arr[i];
@@ -46,15 +48,19 @@ var shuffle = function (arr) {
 var activePage = function () {
   map.classList.remove('map--faded');
 
-  for (i = 0; i < fieldsets.length; i++) {
+  for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].removeAttribute('disabled');
+  }
+
+  for (var j = 0; j < selectsFilter.length; j++) {
+    selectsFilter[j].removeAttribute('disabled');
   }
 
   adForm.classList.remove('ad-form--disabled');
 
   addPins();
 
-  pinMain.removeEventListener('click', activePage);
+  pinMain.removeEventListener('mouseup', activePage);
 };
 
 // функция определения координат метки
@@ -67,6 +73,10 @@ var defineCoordinates = function (element, elementWidth, elementHeight) {
 
 // неактивное состояние страницы
 
+for (var j = 0; j < selectsFilter.length; j++) {
+  selectsFilter[j].setAttribute('disabled', 'true');
+}
+
 for (var i = 0; i < fieldsets.length; i++) {
   fieldsets[i].setAttribute('disabled', 'true');
 }
@@ -75,7 +85,7 @@ defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
 // обработчики на главной метке
 
-pinMain.addEventListener('click', activePage);
+pinMain.addEventListener('mouseup', activePage);
 pinMain.addEventListener('mouseup', function () {
   defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
 });
