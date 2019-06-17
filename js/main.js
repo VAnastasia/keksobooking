@@ -43,6 +43,18 @@ var shuffle = function (arr) {
   return arr;
 };
 
+// функция дезактивации страницы
+
+var inactivePage = function () {
+  for (var j = 0; j < selectsFilter.length; j++) {
+    selectsFilter[j].setAttribute('disabled', 'true');
+  }
+
+  for (var i = 0; i < fieldsets.length; i++) {
+    fieldsets[i].setAttribute('disabled', 'true');
+  }
+};
+
 // функция активации страницы
 
 var activePage = function () {
@@ -73,13 +85,7 @@ var defineCoordinates = function (element, elementWidth, elementHeight) {
 
 // неактивное состояние страницы
 
-for (var j = 0; j < selectsFilter.length; j++) {
-  selectsFilter[j].setAttribute('disabled', 'true');
-}
-
-for (var i = 0; i < fieldsets.length; i++) {
-  fieldsets[i].setAttribute('disabled', 'true');
-}
+inactivePage();
 
 defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
