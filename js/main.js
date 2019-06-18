@@ -10,7 +10,7 @@ var FINISH_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var MAIN_PIN_WIDTH = 65;
-var MAIN_PIN_HEIGHT = 87;
+var MAIN_PIN_HEIGHT = 81;
 var MAIN_PIN_INACTIVE_HALF_HEIGHT = 65 * 0.5;
 
 var map = document.querySelector('.map');
@@ -20,6 +20,60 @@ var addressValue = adForm.querySelector('#address');
 var fieldsets = document.querySelectorAll('fieldset');
 var filters = document.querySelector('.map__filters');
 var selectsFilter = filters.querySelectorAll('select');
+
+var typeOffer = adForm.querySelector('#type');
+var price = adForm.querySelector('#price');
+var timeIn = adForm.querySelector('#timein');
+var timeOut = adForm.querySelector('#timeout');
+
+// валидация формы добавления нового объявления
+var changeMinPrice = function () {
+  if (typeOffer.value === 'bungalo') {
+    price.min = '0';
+    price.placeholder = '0';
+  } else if (typeOffer.value === 'flat') {
+    price.min = '1000';
+    price.placeholder = '1000';
+  } else if (typeOffer.value === 'house') {
+    price.min = '5000';
+    price.placeholder = '5000';
+  } else {
+    price.min = '10000';
+    price.placeholder = '10000';
+  }
+};
+
+var changeTimeOut = function () {
+  if (timeIn.value === '12:00') {
+    timeOut.value = '12:00';
+  } else if (timeIn.value === '13:00') {
+    timeOut.value = '13:00';
+  } else if (timeIn.value === '14:00') {
+    timeOut.value = '14:00';
+  }
+};
+
+var changeTimeIn = function () {
+  if (timeOut.value === '12:00') {
+    timeIn.value = '12:00';
+  } else if (timeOut.value === '13:00') {
+    timeIn.value = '13:00';
+  } else if (timeOut.value === '14:00') {
+    timeIn.value = '14:00';
+  }
+};
+
+timeIn.addEventListener('change', function () {
+  changeTimeOut();
+});
+
+timeOut.addEventListener('change', function () {
+  changeTimeIn();
+});
+
+typeOffer.addEventListener('change', function () {
+  changeMinPrice();
+});
 
 // вспомогательные функции
 
@@ -53,6 +107,8 @@ var inactivePage = function () {
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].setAttribute('disabled', 'true');
   }
+
+  changeMinPrice();
 };
 
 // функция активации страницы
