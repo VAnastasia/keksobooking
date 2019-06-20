@@ -30,6 +30,75 @@ var price = adForm.querySelector('#price');
 var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
 
+// функция определения координат метки
+
+var defineCoordinates = function (element, elementWidth, elementHeight) {
+  var mainPinX = element.offsetLeft;
+  var mainPinY = element.offsetTop;
+  addressValue.value = Math.floor(mainPinX + elementWidth * 0.5) + ', ' + Math.floor(mainPinY + elementHeight);
+};
+
+// перетаскивание метки
+
+var limitsDrag = {
+  top: START_Y - MAIN_PIN_HEIGHT,
+  left: START_X - Math.floor(MAIN_PIN_WIDTH * 0.5),
+  bottom: FINISH_Y - MAIN_PIN_HEIGHT,
+  right: FINISH_X - Math.floor(MAIN_PIN_WIDTH * 0.5)
+};
+
+var onDragPin = function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    if (pinMain.offsetTop < limitsDrag.top) {
+      pinMain.style.top = limitsDrag.top + 'px';
+    } else if (pinMain.offsetTop > limitsDrag.bottom) {
+      pinMain.style.top = limitsDrag.bottom + 'px';
+    } else {
+      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+    }
+
+    if (pinMain.offsetLeft < limitsDrag.left) {
+      pinMain.style.left = limitsDrag.left + 'px';
+    } else if (pinMain.offsetLeft > limitsDrag.right) {
+      pinMain.style.left = limitsDrag.right + 'px';
+    } else {
+      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+    }
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+};
+
+pinMain.addEventListener('mousedown', onDragPin);
+
 // валидация формы добавления нового объявления
 
 var typeOfferObj = {
@@ -118,13 +187,6 @@ var activePage = function () {
   pinMain.removeEventListener('mouseup', activePage);
 };
 
-// функция определения координат метки
-
-var defineCoordinates = function (element, elementWidth, elementHeight) {
-  var mainPinX = element.offsetLeft;
-  var mainPinY = element.offsetTop;
-  addressValue.value = Math.round(mainPinX + elementWidth * 0.5) + ', ' + Math.round(mainPinY + elementHeight);
-};
 
 // неактивное состояние страницы
 
@@ -135,9 +197,9 @@ defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
 // обработчики на главной метке
 
 pinMain.addEventListener('mouseup', activePage);
-pinMain.addEventListener('mouseup', function () {
-  defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
-});
+// pinMain.addEventListener('mouseup', function () {
+//   defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
+// });
 
 // отрисовка похожих объявлений
 
