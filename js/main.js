@@ -183,6 +183,7 @@ var activePage = function () {
   adForm.classList.remove('ad-form--disabled');
 
   addPins();
+  defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
 
   pinMain.removeEventListener('mouseup', activePage);
 };
@@ -191,15 +192,13 @@ var activePage = function () {
 // неактивное состояние страницы
 
 inactivePage();
-
 defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
-// обработчики на главной метке
+
+// обработчик активации страницы
 
 pinMain.addEventListener('mouseup', activePage);
-// pinMain.addEventListener('mouseup', function () {
-//   defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
-// });
+
 
 // отрисовка похожих объявлений
 
