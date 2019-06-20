@@ -10,8 +10,12 @@ var FINISH_Y = 630;
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var MAIN_PIN_WIDTH = 65;
-var MAIN_PIN_HEIGHT = 87;
+var MAIN_PIN_HEIGHT = 81;
 var MAIN_PIN_INACTIVE_HALF_HEIGHT = 65 * 0.5;
+var PRICE_BUNGALO = 0;
+var PRICE_FLAT = 1000;
+var PRICE_HOUSE = 5000;
+var PRICE_PALACE = 10000;
 
 var map = document.querySelector('.map');
 var pinMain = document.querySelector('.map__pin--main');
@@ -20,6 +24,43 @@ var addressValue = adForm.querySelector('#address');
 var fieldsets = document.querySelectorAll('fieldset');
 var filters = document.querySelector('.map__filters');
 var selectsFilter = filters.querySelectorAll('select');
+
+var typeOffer = adForm.querySelector('#type');
+var price = adForm.querySelector('#price');
+var timeIn = adForm.querySelector('#timein');
+var timeOut = adForm.querySelector('#timeout');
+
+// валидация формы добавления нового объявления
+
+var typeOfferObj = {
+  bungalo: PRICE_BUNGALO,
+  flat: PRICE_FLAT,
+  house: PRICE_HOUSE,
+  palace: PRICE_PALACE
+};
+
+var changeMinPrice = function () {
+  var typeValue = typeOffer.value;
+  price.min = typeOfferObj[typeValue];
+  price.placeholder = typeOfferObj[typeValue];
+};
+
+var changeTime = function (select1, select2) {
+  select2.value = select1.value;
+  return select2.value;
+};
+
+timeIn.addEventListener('change', function () {
+  changeTime(timeIn, timeOut);
+});
+
+timeOut.addEventListener('change', function () {
+  changeTime(timeOut, timeIn);
+});
+
+typeOffer.addEventListener('change', function () {
+  changeMinPrice();
+});
 
 // вспомогательные функции
 
@@ -53,6 +94,8 @@ var inactivePage = function () {
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].setAttribute('disabled', 'true');
   }
+
+  changeMinPrice();
 };
 
 // функция активации страницы
