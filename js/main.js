@@ -12,6 +12,10 @@ var PIN_HEIGHT = 70;
 var MAIN_PIN_WIDTH = 65;
 var MAIN_PIN_HEIGHT = 81;
 var MAIN_PIN_INACTIVE_HALF_HEIGHT = 65 * 0.5;
+var PRICE_BUNGALO = 0;
+var PRICE_FLAT = 1000;
+var PRICE_HOUSE = 5000;
+var PRICE_PALACE = 10000;
 
 var map = document.querySelector('.map');
 var pinMain = document.querySelector('.map__pin--main');
@@ -27,48 +31,31 @@ var timeIn = adForm.querySelector('#timein');
 var timeOut = adForm.querySelector('#timeout');
 
 // валидация формы добавления нового объявления
+
+var typeOfferObj = {
+  bungalo: PRICE_BUNGALO,
+  flat: PRICE_FLAT,
+  house: PRICE_HOUSE,
+  palace: PRICE_PALACE
+};
+
 var changeMinPrice = function () {
-  if (typeOffer.value === 'bungalo') {
-    price.min = '0';
-    price.placeholder = '0';
-  } else if (typeOffer.value === 'flat') {
-    price.min = '1000';
-    price.placeholder = '1000';
-  } else if (typeOffer.value === 'house') {
-    price.min = '5000';
-    price.placeholder = '5000';
-  } else {
-    price.min = '10000';
-    price.placeholder = '10000';
-  }
+  var typeValue = typeOffer.value;
+  price.min = typeOfferObj[typeValue];
+  price.placeholder = typeOfferObj[typeValue];
 };
 
-var changeTimeOut = function () {
-  if (timeIn.value === '12:00') {
-    timeOut.value = '12:00';
-  } else if (timeIn.value === '13:00') {
-    timeOut.value = '13:00';
-  } else if (timeIn.value === '14:00') {
-    timeOut.value = '14:00';
-  }
-};
-
-var changeTimeIn = function () {
-  if (timeOut.value === '12:00') {
-    timeIn.value = '12:00';
-  } else if (timeOut.value === '13:00') {
-    timeIn.value = '13:00';
-  } else if (timeOut.value === '14:00') {
-    timeIn.value = '14:00';
-  }
+var changeTime = function (select1, select2) {
+  select2.value = select1.value;
+  return select2.value;
 };
 
 timeIn.addEventListener('change', function () {
-  changeTimeOut();
+  changeTime(timeIn, timeOut);
 });
 
 timeOut.addEventListener('change', function () {
-  changeTimeIn();
+  changeTime(timeOut, timeIn);
 });
 
 typeOffer.addEventListener('change', function () {
