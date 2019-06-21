@@ -70,24 +70,30 @@ var onDragPin = function (evt) {
 
     if (pinMain.offsetTop < limitsDrag.top) {
       pinMain.style.top = limitsDrag.top + 'px';
+      document.removeEventListener('mousemove', onMouseMove);
     } else if (pinMain.offsetTop > limitsDrag.bottom) {
       pinMain.style.top = limitsDrag.bottom + 'px';
+      document.removeEventListener('mousemove', onMouseMove);
     } else {
       pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
     }
 
     if (pinMain.offsetLeft < limitsDrag.left) {
       pinMain.style.left = limitsDrag.left + 'px';
+      document.removeEventListener('mousemove', onMouseMove);
     } else if (pinMain.offsetLeft > limitsDrag.right) {
       pinMain.style.left = limitsDrag.right + 'px';
+      document.removeEventListener('mousemove', onMouseMove);
     } else {
       pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
     }
+
+    defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
+
   };
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-    defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
@@ -185,7 +191,7 @@ var activePage = function () {
   addPins();
   defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
 
-  pinMain.removeEventListener('mouseup', activePage);
+  document.removeEventListener('mouseup', activePage);
 };
 
 
@@ -197,7 +203,7 @@ defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
 // обработчик активации страницы
 
-pinMain.addEventListener('mouseup', activePage);
+document.addEventListener('mouseup', activePage);
 
 
 // отрисовка похожих объявлений
