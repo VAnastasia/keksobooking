@@ -68,24 +68,23 @@ var onDragPin = function (evt) {
       y: moveEvt.clientY
     };
 
+    pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+    pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+
     if (pinMain.offsetTop < limitsDrag.top) {
       pinMain.style.top = limitsDrag.top + 'px';
-      document.removeEventListener('mousemove', onMouseMove);
-    } else if (pinMain.offsetTop > limitsDrag.bottom) {
+    }
+
+    if (pinMain.offsetTop > limitsDrag.bottom) {
       pinMain.style.top = limitsDrag.bottom + 'px';
-      document.removeEventListener('mousemove', onMouseMove);
-    } else {
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
     }
 
     if (pinMain.offsetLeft < limitsDrag.left) {
       pinMain.style.left = limitsDrag.left + 'px';
-      document.removeEventListener('mousemove', onMouseMove);
-    } else if (pinMain.offsetLeft > limitsDrag.right) {
+    }
+
+    if (pinMain.offsetLeft > limitsDrag.right) {
       pinMain.style.left = limitsDrag.right + 'px';
-      document.removeEventListener('mousemove', onMouseMove);
-    } else {
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
     }
 
     defineCoordinates(pinMain, MAIN_PIN_WIDTH, MAIN_PIN_HEIGHT);
