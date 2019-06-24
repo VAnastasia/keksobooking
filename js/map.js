@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var map = document.querySelector('.map');
   var fieldsets = document.querySelectorAll('fieldset');
   var filters = document.querySelector('.map__filters');
   var selectsFilter = filters.querySelectorAll('select');
@@ -23,7 +22,9 @@
   // функция активации страницы
 
   var activePage = function () {
-    map.classList.remove('map--faded');
+    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
+
+    window.backend.load(window.pins.addPins, window.pins.errorHandler);
 
     for (var i = 0; i < fieldsets.length; i++) {
       fieldsets[i].removeAttribute('disabled');
@@ -35,18 +36,13 @@
 
     window.mainPin.adForm.classList.remove('ad-form--disabled');
 
-    window.backend.load(window.pins.addPins, window.pins.errorHandler);
-    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
-
     document.removeEventListener('mouseup', activePage);
   };
-
 
   // неактивное состояние страницы
 
   inactivePage();
   window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
-
 
   // обработчик активации страницы
 

@@ -18,11 +18,12 @@
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < pins.length; i++) {
+    for (var i = 0; i < window.data.PINS_AMOUNT; i++) {
       fragment.appendChild(createPin(pins[i]));
     }
     mapPins.appendChild(fragment);
 
+    document.querySelector('.map').classList.remove('map--faded');
   };
 
   var errorHandler = function () {

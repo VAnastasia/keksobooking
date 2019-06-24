@@ -4,7 +4,7 @@
   window.data = {
     IMG_NUMBER: ['01', '02', '03', '04', '05', '06', '07', '08'],
     TYPE_OFFER: ['palace', 'flat', 'house', 'bungalo'],
-    PINS_AMOUNT: 8,
+    PINS_AMOUNT: 5,
     START_X: 0,
     FINISH_X: 1200,
     START_Y: 130,
