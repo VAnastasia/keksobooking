@@ -33,10 +33,10 @@
       selectsFilter[j].removeAttribute('disabled');
     }
 
-    window.card.adForm.classList.remove('ad-form--disabled');
+    window.mainPin.adForm.classList.remove('ad-form--disabled');
 
-    window.pins.addPins();
-    window.card.defineCoordinates(window.card.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
+    window.backend.load(window.pins.addPins, window.pins.errorHandler);
+    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
 
     document.removeEventListener('mouseup', activePage);
   };
@@ -45,7 +45,7 @@
   // неактивное состояние страницы
 
   inactivePage();
-  window.card.defineCoordinates(window.card.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
+  window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
 
   // обработчик активации страницы
