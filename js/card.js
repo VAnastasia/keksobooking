@@ -36,32 +36,37 @@
 
   var renderCard = function () {
 
-    // var cards = document.querySelectorAll('.map__card');
-    // console.log(cards);
-
     var pins = document.querySelectorAll('.map__pin');
 
     pins.forEach(function (pin) {
       pin.addEventListener('click', function () {
 
         var response = window.backend.response;
-        var responseClicked = response.filter(function (elem) {
+        var pinClicked = response.filter(function (elem) {
           return (elem.location.x === parseInt(pin.dataset.x, 10) && elem.location.y === parseInt(pin.dataset.y, 10));
         });
 
         var card = document.querySelector('.map__card');
+
         if (card) {
           card.remove();
         }
 
-        createCard(responseClicked[0]);
+        createCard(pinClicked[0]);
+
+        card = document.querySelector('.map__card');
+        var cardClose = card.querySelector('.popup__close');
+
+        cardClose.addEventListener('click', function () {
+          card.remove();
+        });
 
       });
     });
 
   };
 
-  // renderCard();
+  renderCard();
 
   window.card = {
     renderCard: renderCard
