@@ -7,7 +7,38 @@
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
 
+  var roomNumber = adForm.querySelector('#room_number');
+  var capacity = adForm.querySelector('#capacity');
+
+  var capacityOptions = capacity.querySelectorAll('option');
+
+
   // валидация формы добавления нового объявления
+
+  var capacityRoom = {
+    '1': ['1'],
+    '2': ['1', '2'],
+    '3': ['1', '2', '3'],
+    '100': ['0']
+  };
+
+  var changeCapacity = function () {
+    capacityOptions.forEach(function (option) {
+      option.disabled = true;
+      option.selected = false;
+
+      if (capacityRoom[roomNumber.value].indexOf(option.value) > -1) {
+        option.disabled = false;
+        option.selected = true;
+      }
+    });
+  };
+
+  changeCapacity();
+  roomNumber.addEventListener('change', function () {
+    changeCapacity();
+  });
+
 
   var typeOfferObj = {
     bungalo: window.data.PRICE_BUNGALO,
