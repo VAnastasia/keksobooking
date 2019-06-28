@@ -37,6 +37,7 @@
     window.mainPin.adForm.classList.remove('ad-form--disabled');
 
     document.removeEventListener('mouseup', activePage);
+
   };
 
   // неактивное состояние страницы

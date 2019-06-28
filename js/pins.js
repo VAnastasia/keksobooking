@@ -11,6 +11,8 @@
     pinElement.querySelector('img').alt = pin.offer.title;
     pinElement.style.left = pin.location.x - window.data.PIN_WIDTH * 0.5 + 'px';
     pinElement.style.top = pin.location.y - window.data.PIN_HEIGHT + 'px';
+    pinElement.setAttribute('data-x', pin.location.x);
+    pinElement.setAttribute('data-y', pin.location.y);
     return pinElement;
   };
 
@@ -24,6 +26,7 @@
     mapPins.appendChild(fragment);
 
     document.querySelector('.map').classList.remove('map--faded');
+    window.card.renderCard();
   };
 
   var errorHandler = function () {
