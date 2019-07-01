@@ -19,7 +19,17 @@
         }
       });
 
+      xhr.addEventListener('error', function () {
+        onError();
+      });
+
+      xhr.addEventListener('timeout', function () {
+        onError();
+      });
+
       xhr.send();
+
+      window.backend.response = xhr.response;
     },
 
     save: function (data, onLoad, onError) {
@@ -29,11 +39,19 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === STATUS_OK) {
           onLoad(xhr.response);
         } else {
           onError();
         }
+      });
+
+      xhr.addEventListener('error', function () {
+        onError();
+      });
+
+      xhr.addEventListener('timeout', function () {
+        onError();
       });
 
       xhr.open('POST', URL);
