@@ -2,10 +2,10 @@
 
 (function () {
   var typeOfferMap = {
-    bungalo: 'бунгало',
-    flat: 'квартира',
-    house: 'дом',
-    palace: 'дворец'
+    bungalo: 'Бунгало',
+    flat: 'Квартира',
+    house: 'Дом',
+    palace: 'Дворец'
   };
 
   var createCard = function (pin) {
@@ -54,7 +54,7 @@
     var featuresClassNames = features.map(function (elem) {
       return 'popup__feature popup__feature--' + elem;
     });
-    var popupFeatures = Array.from(cardElement.querySelectorAll('.popup__feature'));
+    var popupFeatures = cardElement.querySelectorAll('.popup__feature');
 
     popupFeatures.forEach(function (elem) {
       var contain = featuresClassNames.some(function (item) {
@@ -62,15 +62,23 @@
       });
 
       if (!contain) {
-        elem.style.display = 'none';
+        elem.remove();
       }
     });
 
-    var main = document.querySelector('main');
+    var map = document.querySelector('.map');
     var fragment = document.createDocumentFragment();
 
     fragment.appendChild(cardElement);
-    main.appendChild(fragment);
+    map.appendChild(fragment);
+  };
+
+  var deleteCard = function () {
+    var card = document.querySelector('.map__card');
+
+    if (card) {
+      card.remove();
+    }
   };
 
 
@@ -83,20 +91,15 @@
     pinsArray.forEach(function (pin) {
       pin.addEventListener('click', function () {
 
-        var response = window.backend.response;
-        var pinClicked = response.filter(function (elem) {
+        var data = window.pins.pinsArray;
+        var pinClicked = data.filter(function (elem) {
           return (elem.location.x === parseInt(pin.dataset.x, 10) && elem.location.y === parseInt(pin.dataset.y, 10));
         });
 
-        var card = document.querySelector('.map__card');
-
-        if (card) {
-          card.remove();
-        }
-
+        deleteCard();
         createCard(pinClicked[0]);
 
-        card = document.querySelector('.map__card');
+        var card = document.querySelector('.map__card');
         var cardClose = card.querySelector('.popup__close');
 
         cardClose.addEventListener('click', function () {
@@ -105,10 +108,10 @@
 
       });
     });
-
   };
 
   window.card = {
+    deleteCard: deleteCard,
     renderCard: renderCard
   };
 

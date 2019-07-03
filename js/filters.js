@@ -6,22 +6,18 @@
   var housingType = filters.querySelector('#housing-type');
 
   var onFilterPins = function () {
-    var data = window.backend.response;
+    var data = window.pins.pinsArray;
     var pinsArray = data.slice();
+
+    pinsFiltred = data;
 
     if (housingType.value !== 'any') {
       var pinsFiltred = pinsArray.filter(function (pin) {
         return pin.offer.type === housingType.value;
       });
-    } else {
-      pinsFiltred = data;
     }
 
-    var card = document.querySelector('.map__card');
-
-    if (card) {
-      card.remove();
-    }
+    window.card.deleteCard();
 
     window.pins.renderPins(pinsFiltred);
   };

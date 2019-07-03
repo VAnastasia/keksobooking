@@ -22,12 +22,15 @@
     });
   };
 
-  var renderPins = function (pins) {
+  var deletePins = function () {
     var pinsRendered = document.querySelectorAll('.map__pin');
     var pinsArray = Array.from(pinsRendered);
     pinsArray.shift();
     deleteArray(pinsArray);
+  };
 
+  var renderPins = function (pins) {
+    deletePins();
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
 
@@ -43,34 +46,42 @@
   };
 
   var addPins = function (pins) {
+    window.pins.pinsArray = pins;
     renderPins(pins);
     document.querySelector('.map').classList.remove('map--faded');
   };
 
-  var errorHandler = function () {
-    var errorTemplate = document.querySelector('#error')
-          .content
-          .querySelector('.error');
-
-    var error = errorTemplate.cloneNode(true);
-    var fragment = document.createDocumentFragment();
-    var main = document.querySelector('main');
-    fragment.appendChild(error);
-    main.appendChild(fragment);
-
-    // нажатие на кнопку "Попробовать снова"
-
-    var errorButton = document.querySelector('.error__button');
-    errorButton.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      location.reload();
-    });
-  };
+  // var errorHandler = function () {
+  //   var errorTemplate = document.querySelector('#error')
+  //         .content
+  //         .querySelector('.error');
+  //
+  //   var error = errorTemplate.cloneNode(true);
+  //   var fragment = document.createDocumentFragment();
+  //   var main = document.querySelector('main');
+  //   fragment.appendChild(error);
+  //   main.appendChild(fragment);
+  //
+  //   // нажатие на кнопку "Попробовать снова"
+  //
+  //   var errorButton = document.querySelector('.error__button');
+  //   var errorMessage = document.querySelector('.error');
+  //
+  //   errorButton.addEventListener('click', function (evt) {
+  //     console.log('click');
+  //     evt.preventDefault();
+  //     location.reload();
+  //   });
+  //
+  //   errorMessage.addEventListener('click', function () {
+  //     location.reload();
+  //   });
+  // };
 
   window.pins = {
     renderPins: renderPins,
     addPins: addPins,
-    errorHandler: errorHandler
+    deletePins: deletePins
   };
 
 })();
