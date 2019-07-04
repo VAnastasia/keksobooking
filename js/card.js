@@ -93,7 +93,7 @@
 
         var data = window.pins.pinsArray;
         var pinClicked = data.filter(function (elem) {
-          return (elem.location.x === parseInt(pin.dataset.x, 10) && elem.location.y === parseInt(pin.dataset.y, 10));
+          return elem.number === parseInt(pin.dataset.number, 10);
         });
 
         deleteCard();

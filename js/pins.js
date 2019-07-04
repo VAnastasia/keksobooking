@@ -11,8 +11,7 @@
     pinElement.querySelector('img').alt = pin.offer.title;
     pinElement.style.left = pin.location.x - window.data.PIN_WIDTH * 0.5 + 'px';
     pinElement.style.top = pin.location.y - window.data.PIN_HEIGHT + 'px';
-    pinElement.setAttribute('data-x', pin.location.x);
-    pinElement.setAttribute('data-y', pin.location.y);
+    pinElement.setAttribute('data-number', pin.number);
     return pinElement;
   };
 
@@ -46,37 +45,15 @@
   };
 
   var addPins = function (pins) {
-    window.pins.pinsArray = pins;
+    window.pins.pinsArray = pins.filter(function (elem) {
+      return elem.offer;
+    });
+    pins.forEach(function (elem) {
+      elem.number = pins.indexOf(elem);
+    });
     renderPins(pins);
     document.querySelector('.map').classList.remove('map--faded');
   };
-
-  // var errorHandler = function () {
-  //   var errorTemplate = document.querySelector('#error')
-  //         .content
-  //         .querySelector('.error');
-  //
-  //   var error = errorTemplate.cloneNode(true);
-  //   var fragment = document.createDocumentFragment();
-  //   var main = document.querySelector('main');
-  //   fragment.appendChild(error);
-  //   main.appendChild(fragment);
-  //
-  //   // нажатие на кнопку "Попробовать снова"
-  //
-  //   var errorButton = document.querySelector('.error__button');
-  //   var errorMessage = document.querySelector('.error');
-  //
-  //   errorButton.addEventListener('click', function (evt) {
-  //     console.log('click');
-  //     evt.preventDefault();
-  //     location.reload();
-  //   });
-  //
-  //   errorMessage.addEventListener('click', function () {
-  //     location.reload();
-  //   });
-  // };
 
   window.pins = {
     renderPins: renderPins,
