@@ -146,6 +146,7 @@
     window.mainPin.pinMain.addEventListener('mousedown', activePage);
     window.card.deleteCard();
     adForm.reset();
+    window.filters.resetFilters();
     window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
     changeCapacity();
     inactivePage();
