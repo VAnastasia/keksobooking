@@ -18,12 +18,11 @@
     var pinsFiltred = pinsArray;
 
     var filterType = function (pin) {
-      if (housingType.value !== 'any' && pin.offer.type === housingType.value) {
-        return true;
-      } else if (housingType.value === 'any') {
+      if (housingType.value !== 'any' && pin.offer.type !== housingType.value) {
+        return false;
+      } else {
         return true;
       }
-      return false;
     };
 
     var filterPrice = function (pin) {
@@ -31,71 +30,55 @@
         switch (housingPrice.value) {
 
           case 'low':
-            if (pin.offer.price < LOW_PRICE) {
-              return true;
-            } else {
+            if (pin.offer.price >= LOW_PRICE) {
               return false;
             }
+            return true;
 
           case 'high':
-            if (pin.offer.price > HIGH_PRICE) {
-              return true;
-            } else {
+            if (pin.offer.price <= HIGH_PRICE) {
               return false;
             }
+            return true;
 
           case 'middle':
-            if (pin.offer.price >= LOW_PRICE && pin.offer.price <= HIGH_PRICE) {
-              return true;
-            } else {
+            if (pin.offer.price < LOW_PRICE || pin.offer.price > HIGH_PRICE) {
               return false;
             }
+            return true;
         }
-      } else if (housingPrice.value === 'any') {
-        return true;
       }
-
-      return false;
+      return true;
     };
 
     var filterRooms = function (pin) {
-      if (housingRooms.value !== 'any' && pin.offer.rooms === parseInt(housingRooms.value, 10)) {
-        return true;
-      } else if (housingRooms.value === 'any') {
-        return true;
+      if (housingRooms.value !== 'any' && pin.offer.rooms !== parseInt(housingRooms.value, 10)) {
+        return false;
       }
-      return false;
+      return true;
     };
 
     var filterGuests = function (pin) {
-      if (housingGuests.value !== 'any' && pin.offer.guests === parseInt(housingGuests.value, 10)) {
-        return true;
-      } else if (housingGuests.value === 'any') {
-        return true;
+      if (housingGuests.value !== 'any' && pin.offer.guests !== parseInt(housingGuests.value, 10)) {
+        return false;
       }
-      return false;
+      return true;
     };
 
     var filterFeatures = function (pin) {
       var features = filters.querySelectorAll('input[name="features"]:checked');
-
       var featuresValues = [];
 
       features.forEach(function (elem) {
         featuresValues.push(elem.value);
       });
 
-
       if (featuresValues.length > 0) {
         return featuresValues.every(function (item) {
           return pin.offer.features.includes(item);
         });
-
-      } else if (featuresValues.length === 0) {
-        return true;
       }
-
-      return false;
+      return true;
     };
 
     pinsFiltred = pinsArray.filter(function (elem) {
