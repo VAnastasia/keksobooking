@@ -20,9 +20,8 @@
     var filterType = function (pin) {
       if (housingType.value !== 'any' && pin.offer.type !== housingType.value) {
         return false;
-      } else {
-        return true;
       }
+      return true;
     };
 
     var filterPrice = function (pin) {
