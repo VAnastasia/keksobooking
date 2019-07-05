@@ -2,6 +2,7 @@
 
 (function () {
   window.data = {
+    ESC_KEYCODE: 27,
     IMG_NUMBER: ['01', '02', '03', '04', '05', '06', '07', '08'],
     TYPE_OFFER: ['palace', 'flat', 'house', 'bungalo'],
     PINS_AMOUNT: 5,
@@ -17,6 +18,10 @@
     PRICE_BUNGALO: 0,
     PRICE_FLAT: 1000,
     PRICE_HOUSE: 5000,
-    PRICE_PALACE: 10000
+    PRICE_PALACE: 10000,
+    URL_GET_DATA: 'https://js.dump.academy/keksobooking/data',
+    URL_SET_DATA: 'https://js.dump.academy/keksobooking',
+    MAIN_PIN_START_X: '570px',
+    MAIN_PIN_START_Y: '375px'
   };
 })();
