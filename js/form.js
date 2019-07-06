@@ -136,6 +136,10 @@
     document.querySelector('.map').classList.add('map--faded');
     window.mainPin.adForm.classList.add('ad-form--disabled');
     window.pins.removePins();
+    var previewPhoto = document.querySelectorAll('.ad-form__photo img');
+    window.preview.removePreview(previewPhoto);
+    var previewAvatar = document.querySelector('.ad-form-header__preview img');
+    previewAvatar.src = window.preview.previewAvatarDefault;
 
     window.mainPin.pinMain.style.left = window.data.MAIN_PIN_START_X;
     window.mainPin.pinMain.style.top = window.data.MAIN_PIN_START_Y;
