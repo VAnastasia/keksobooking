@@ -31,7 +31,6 @@
     removePins();
     var mapPins = document.querySelector('.map__pins');
     var fragment = document.createDocumentFragment();
-
     var pinsAmount = (pins.length > window.data.PINS_AMOUNT) ? window.data.PINS_AMOUNT : pins.length;
 
     for (var i = 0; i < pinsAmount; i++) {
