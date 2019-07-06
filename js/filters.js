@@ -2,7 +2,6 @@
 
 (function () {
   var filters = document.querySelector('.map__filters');
-
   var housingType = filters.querySelector('#housing-type');
   var housingPrice = filters.querySelector('#housing-price');
   var housingRooms = filters.querySelector('#housing-rooms');
@@ -14,7 +13,6 @@
   var onFilterPins = function () {
     var data = window.pins.pinsArray;
     var pinsArray = data.slice();
-
     var pinsFiltred = pinsArray;
 
     var filterType = function (pin) {
