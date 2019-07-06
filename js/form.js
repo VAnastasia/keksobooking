@@ -42,7 +42,7 @@
     changeCapacity();
   });
 
-  var typeOfferObj = {
+  var typeOfferMap = {
     bungalo: window.data.PRICE_BUNGALO,
     flat: window.data.PRICE_FLAT,
     house: window.data.PRICE_HOUSE,
@@ -51,8 +51,8 @@
 
   var changeMinPrice = function () {
     var typeValue = typeOffer.value;
-    price.min = typeOfferObj[typeValue];
-    price.placeholder = typeOfferObj[typeValue];
+    price.min = typeOfferMap[typeValue];
+    price.placeholder = typeOfferMap[typeValue];
   };
 
   var changeTime = function (select1, select2) {
@@ -102,11 +102,8 @@
     }
 
     changeCapacity();
-
     window.mainPin.adForm.classList.remove('ad-form--disabled');
-
     window.mainPin.pinMain.removeEventListener('mousedown', activePage);
-
   };
 
   // неактивное состояние страницы
