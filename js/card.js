@@ -73,7 +73,7 @@
     map.appendChild(fragment);
   };
 
-  var deleteCard = function () {
+  var removeCard = function () {
     var card = document.querySelector('.map__card');
 
     if (card) {
@@ -93,10 +93,10 @@
 
         var data = window.pins.pinsArray;
         var pinClicked = data.filter(function (elem) {
-          return elem.number === parseInt(pin.dataset.number, 10);
+          return (elem.location.x - window.data.PIN_WIDTH * 0.5 + 'px') === pin.style.left && (elem.location.y - window.data.PIN_HEIGHT + 'px') === pin.style.top;
         });
 
-        deleteCard();
+        removeCard();
         createCard(pinClicked[0]);
 
         var card = document.querySelector('.map__card');
@@ -111,7 +111,7 @@
   };
 
   window.card = {
-    deleteCard: deleteCard,
+    removeCard: removeCard,
     renderCard: renderCard
   };
 

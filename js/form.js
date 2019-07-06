@@ -138,13 +138,13 @@
   var resetForm = function () {
     document.querySelector('.map').classList.add('map--faded');
     window.mainPin.adForm.classList.add('ad-form--disabled');
-    window.pins.deletePins();
+    window.pins.removePins();
 
     window.mainPin.pinMain.style.left = window.data.MAIN_PIN_START_X;
     window.mainPin.pinMain.style.top = window.data.MAIN_PIN_START_Y;
 
     window.mainPin.pinMain.addEventListener('mousedown', activePage);
-    window.card.deleteCard();
+    window.card.removeCard();
     adForm.reset();
     window.filters.resetFilters();
     window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
