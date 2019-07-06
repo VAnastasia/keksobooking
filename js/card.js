@@ -107,6 +107,7 @@
             elem.classList.remove('map__pin--active');
           });
         };
+
         inactivePin();
         target.classList.add('map__pin--active');
 
