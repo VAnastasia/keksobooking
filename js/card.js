@@ -125,29 +125,7 @@
           }
         });
       }
-
     });
-
-  /*  pinsArray.forEach(function (pin) {
-      pin.addEventListener('click', function () {
-
-        var data = window.pins.pinsArray;
-        var pinClicked = data.filter(function (elem) {
-          return (elem.location.x - window.data.PIN_WIDTH * 0.5 + 'px') === pin.style.left && (elem.location.y - window.data.PIN_HEIGHT + 'px') === pin.style.top;
-        });
-
-        removeCard();
-        createCard(pinClicked[0]);
-
-        var card = document.querySelector('.map__card');
-        var cardClose = card.querySelector('.popup__close');
-
-        cardClose.addEventListener('click', function () {
-          card.remove();
-        });
-
-      });
-    }); */
   };
 
   window.card = {
