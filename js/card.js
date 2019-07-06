@@ -73,7 +73,7 @@
     map.appendChild(fragment);
   };
 
-  var deleteCard = function () {
+  var removeCard = function () {
     var card = document.querySelector('.map__card');
 
     if (card) {
@@ -81,37 +81,55 @@
     }
   };
 
-
   var renderCard = function () {
+    var mapPins = document.querySelector('.map__pins');
+    mapPins.addEventListener('click', function (evt) {
+      var target = evt.target;
+      if (evt.target.tagName === 'IMG') {
+        target = evt.target.parentNode;
+      }
 
-    var pins = document.querySelectorAll('.map__pin');
-    var pinsArray = Array.from(pins);
-    pinsArray.shift();
-
-    pinsArray.forEach(function (pin) {
-      pin.addEventListener('click', function () {
+      if (target.classList.contains('map__pin') && !target.classList.contains('map__pin--main')) {
 
         var data = window.pins.pinsArray;
         var pinClicked = data.filter(function (elem) {
-          return elem.number === parseInt(pin.dataset.number, 10);
+          return ((elem.location.x - window.data.PIN_WIDTH * 0.5 + 'px') === target.style.left) && ((elem.location.y - window.data.PIN_HEIGHT + 'px') === target.style.top);
         });
 
-        deleteCard();
+        removeCard();
         createCard(pinClicked[0]);
 
         var card = document.querySelector('.map__card');
+
+        var inactivePin = function () {
+          var activePins = mapPins.querySelectorAll('.map__pin--active');
+          activePins.forEach(function (elem) {
+            elem.classList.remove('map__pin--active');
+          });
+        };
+        inactivePin();
+        target.classList.add('map__pin--active');
+
         var cardClose = card.querySelector('.popup__close');
 
         cardClose.addEventListener('click', function () {
+          inactivePin();
           card.remove();
         });
 
-      });
+        mapPins.addEventListener('keydown', function (evtKeydown) {
+          if (evtKeydown.keyCode === window.data.ESC_KEYCODE) {
+            evtKeydown.preventDefault();
+            inactivePin();
+            card.remove();
+          }
+        });
+      }
     });
   };
 
   window.card = {
-    deleteCard: deleteCard,
+    removeCard: removeCard,
     renderCard: renderCard
   };
 

@@ -84,7 +84,7 @@
       return filterType(elem) && filterPrice(elem) && filterRooms(elem) && filterGuests(elem) && filterFeatures(elem);
     });
 
-    window.card.deleteCard();
+    window.card.removeCard();
     window.pins.renderPins(pinsFiltred);
 
   };
