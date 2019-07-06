@@ -18,7 +18,7 @@
 
   // валидация формы добавления нового объявления
 
-  var capacityRoom = {
+  var capacityRoomMap = {
     '1': ['1'],
     '2': ['1', '2'],
     '3': ['1', '2', '3'],
@@ -30,7 +30,7 @@
       option.disabled = true;
       option.selected = false;
 
-      if (capacityRoom[roomNumber.value].indexOf(option.value) > -1) {
+      if (capacityRoomMap[roomNumber.value].indexOf(option.value) > -1) {
         option.disabled = false;
         option.selected = true;
       }
