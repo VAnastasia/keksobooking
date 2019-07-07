@@ -88,7 +88,7 @@
   };
 
   var filterPins = function () {
-    filters.addEventListener('change', onFilterPins);
+    filters.addEventListener('change', window.debounce(onFilterPins));
   };
 
   var resetFilters = function () {
