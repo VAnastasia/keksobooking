@@ -18,7 +18,6 @@
 
     if (matches) {
       var reader = new FileReader();
-
       reader.addEventListener('load', function () {
         previewImage.src = reader.result;
       });
@@ -41,6 +40,7 @@
   photoChooser.addEventListener('change', function () {
     var images = photoPreview.querySelectorAll('img');
     removePreview(images);
+
     var files = Array.from(photoChooser.files);
 
     files.forEach(function (elem) {

@@ -10,7 +10,7 @@
   var LOW_PRICE = 10000;
   var HIGH_PRICE = 50000;
 
-  var onFilterPins = function () {
+  var onFilterPins = window.debounce(function () {
     var data = window.pins.pinsArray;
     var pinsArray = data.slice();
     var pinsFiltred = pinsArray;
@@ -85,19 +85,14 @@
     window.card.removeCard();
     window.pins.renderPins(pinsFiltred);
 
-  };
+  });
 
   var filterPins = function () {
-    filters.addEventListener('change', window.debounce(onFilterPins));
-  };
-
-  var resetFilters = function () {
-    filters.reset();
+    filters.addEventListener('change', onFilterPins);
   };
 
   window.filters = {
-    filterPins: filterPins,
-    resetFilters: resetFilters
+    filterPins: filterPins
   };
 
 })();

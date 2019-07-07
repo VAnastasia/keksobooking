@@ -102,7 +102,6 @@
     }
 
     changeCapacity();
-    window.mainPin.adForm.classList.remove('ad-form--disabled');
     window.mainPin.pinMain.removeEventListener('mousedown', activePage);
   };
 
@@ -147,7 +146,7 @@
     window.mainPin.pinMain.addEventListener('mousedown', activePage);
     window.card.removeCard();
     adForm.reset();
-    window.filters.resetFilters();
+    filters.reset();
     window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
     changeCapacity();
     inactivePage();

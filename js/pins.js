@@ -49,6 +49,7 @@
 
     renderPins(pins);
     document.querySelector('.map').classList.remove('map--faded');
+    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   };
 
   window.pins = {
