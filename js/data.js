@@ -3,7 +3,7 @@
 (function () {
   window.data = {
     ESC_KEYCODE: 27,
-    IMG_NUMBER: ['01', '02', '03', '04', '05', '06', '07', '08'],
+    ENTER_KEYCODE: 13,
     TYPE_OFFER: ['palace', 'flat', 'house', 'bungalo'],
     PINS_AMOUNT: 5,
     START_X: 0,

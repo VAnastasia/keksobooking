@@ -75,13 +75,20 @@
   // функция дезактивации страницы
 
   var inactivePage = function () {
-    for (var j = 0; j < selectsFilter.length; j++) {
-      selectsFilter[j].setAttribute('disabled', 'true');
-    }
+    selectsFilter.forEach(function (elem) {
+      elem.setAttribute('disabled', 'true');
+    });
+    // for (var j = 0; j < selectsFilter.length; j++) {
+    //   selectsFilter[j].setAttribute('disabled', 'true');
+    // }
 
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].setAttribute('disabled', 'true');
-    }
+    fieldsets.forEach(function (elem) {
+      elem.setAttribute('disabled', 'true');
+    });
+
+    // for (var i = 0; i < fieldsets.length; i++) {
+    //   fieldsets[i].setAttribute('disabled', 'true');
+    // }
 
     changeMinPrice();
   };
@@ -93,17 +100,28 @@
 
     window.backend.load(window.pins.addPins, errorHandler, 'GET', window.data.URL_GET_DATA);
 
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].removeAttribute('disabled');
-    }
-
-    for (var j = 0; j < selectsFilter.length; j++) {
-      selectsFilter[j].removeAttribute('disabled');
-    }
+    // for (var i = 0; i < fieldsets.length; i++) {
+    //   fieldsets[i].removeAttribute('disabled');
+    // }
+    //
+    // for (var j = 0; j < selectsFilter.length; j++) {
+    //   selectsFilter[j].removeAttribute('disabled');
+    // }
 
     changeCapacity();
     window.mainPin.pinMain.removeEventListener('mousedown', activePage);
   };
+
+  var onEnterPin = function (evt) {
+    if (evt.keyCode === window.data.ENTER_KEYCODE) {
+      evt.preventDefault();
+      activePage();
+    }
+
+    window.mainPin.pinMain.removeEventListener('keydown', onEnterPin);
+  };
+
+  window.mainPin.pinMain.addEventListener('keydown', onEnterPin);
 
   // неактивное состояние страницы
 

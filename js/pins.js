@@ -50,6 +50,12 @@
     renderPins(pins);
     document.querySelector('.map').classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    document.querySelectorAll('fieldset').forEach(function (elem) {
+      elem.removeAttribute('disabled', true);
+    });
+    document.querySelectorAll('.map__filters select').forEach(function (elem) {
+      elem.removeAttribute('disabled', true);
+    });
   };
 
   window.pins = {

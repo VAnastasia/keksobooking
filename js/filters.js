@@ -10,7 +10,7 @@
   var LOW_PRICE = 10000;
   var HIGH_PRICE = 50000;
 
-  var onFilterPins = window.debounce(function () {
+  var onFilterPins = function () {
     var data = window.pins.pinsArray;
     var pinsArray = data.slice();
     var pinsFiltred = pinsArray;
@@ -23,29 +23,31 @@
     };
 
     var filterPrice = function (pin) {
+      var isCorrect = true;
+
       if (housingPrice.value !== 'any') {
         switch (housingPrice.value) {
 
           case 'low':
             if (pin.offer.price >= LOW_PRICE) {
-              return false;
+              isCorrect = false;
             }
-            return true;
+            break;
 
           case 'high':
             if (pin.offer.price <= HIGH_PRICE) {
-              return false;
+              isCorrect = false;
             }
-            return true;
+            break;
 
           case 'middle':
             if (pin.offer.price < LOW_PRICE || pin.offer.price > HIGH_PRICE) {
-              return false;
+              isCorrect = false;
             }
-            return true;
+            break;
         }
       }
-      return true;
+      return isCorrect;
     };
 
     var filterRooms = function (pin) {
@@ -54,6 +56,7 @@
       }
       return true;
     };
+
 
     var filterGuests = function (pin) {
       if (housingGuests.value !== 'any' && pin.offer.guests !== parseInt(housingGuests.value, 10)) {
@@ -85,10 +88,10 @@
     window.card.removeCard();
     window.pins.renderPins(pinsFiltred);
 
-  });
+  };
 
   var filterPins = function () {
-    filters.addEventListener('change', onFilterPins);
+    filters.addEventListener('change', window.debounce(onFilterPins));
   };
 
   window.filters = {
