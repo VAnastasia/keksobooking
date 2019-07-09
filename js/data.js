@@ -4,7 +4,6 @@
   window.data = {
     ESC_KEYCODE: 27,
     ENTER_KEYCODE: 13,
-    TYPE_OFFER: ['palace', 'flat', 'house', 'bungalo'],
     PINS_AMOUNT: 5,
     START_X: 0,
     FINISH_X: 1200,
