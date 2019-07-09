@@ -47,7 +47,7 @@
       });
       photos.appendChild(fragmentPhoto);
     } else {
-      photos.style.display = 'none';
+      photos.remove();
     }
 
 
@@ -74,65 +74,62 @@
     map.appendChild(fragment);
   };
 
-  var removeCard = function () {
-    var card = document.querySelector('.map__card');
+  window.card = {
+    remove: function () {
+      var card = document.querySelector('.map__card');
 
-    if (card) {
-      card.remove();
-    }
-  };
-
-  var renderCard = function () {
-    var mapPins = document.querySelector('.map__pins');
-    mapPins.addEventListener('click', function (evt) {
-      var target = evt.target;
-      if (evt.target.tagName === 'IMG') {
-        target = evt.target.parentNode;
+      if (card) {
+        card.remove();
       }
+    },
 
-      if (target.classList.contains('map__pin') && !target.classList.contains('map__pin--main')) {
+    render: function () {
+      var mapPins = document.querySelector('.map__pins');
+      mapPins.addEventListener('click', function (evt) {
+        var target = evt.target;
+        if (evt.target.tagName === 'IMG') {
+          target = evt.target.parentNode;
+        }
 
-        var data = window.pins.pinsArray;
-        var pinClicked = data.filter(function (elem) {
-          return ((elem.location.x - window.data.PIN_WIDTH * 0.5 + 'px') === target.style.left) && ((elem.location.y - window.data.PIN_HEIGHT + 'px') === target.style.top);
-        });
+        if (target.classList.contains('map__pin') && !target.classList.contains('map__pin--main')) {
 
-        removeCard();
-        createCard(pinClicked[0]);
-
-        var card = document.querySelector('.map__card');
-
-        var inactivePin = function () {
-          var activePins = mapPins.querySelectorAll('.map__pin--active');
-          activePins.forEach(function (elem) {
-            elem.classList.remove('map__pin--active');
+          var data = window.pins.responseArray;
+          var pinClicked = data.filter(function (elem) {
+            return ((elem.location.x - window.data.PIN_WIDTH * 0.5 + 'px') === target.style.left) && ((elem.location.y - window.data.PIN_HEIGHT + 'px') === target.style.top);
           });
-        };
 
-        inactivePin();
-        target.classList.add('map__pin--active');
+          window.card.remove();
+          createCard(pinClicked[0]);
 
-        var cardClose = card.querySelector('.popup__close');
+          var card = document.querySelector('.map__card');
 
-        cardClose.addEventListener('click', function () {
+          var inactivePin = function () {
+            var activePins = mapPins.querySelectorAll('.map__pin--active');
+            activePins.forEach(function (elem) {
+              elem.classList.remove('map__pin--active');
+            });
+          };
+
           inactivePin();
-          card.remove();
-        });
+          target.classList.add('map__pin--active');
 
-        mapPins.addEventListener('keydown', function (evtKeydown) {
-          if (evtKeydown.keyCode === window.data.ESC_KEYCODE) {
-            evtKeydown.preventDefault();
+          var cardClose = card.querySelector('.popup__close');
+
+          cardClose.addEventListener('click', function () {
             inactivePin();
             card.remove();
-          }
-        });
-      }
-    });
-  };
+          });
 
-  window.card = {
-    removeCard: removeCard,
-    renderCard: renderCard
+          mapPins.addEventListener('keydown', function (evtKeydown) {
+            if (evtKeydown.keyCode === window.data.ESC_KEYCODE) {
+              evtKeydown.preventDefault();
+              inactivePin();
+              card.remove();
+            }
+          });
+        }
+      });
+    }
   };
 
 })();

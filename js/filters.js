@@ -11,7 +11,7 @@
   var HIGH_PRICE = 50000;
 
   var onFilterPins = function () {
-    var data = window.pins.pinsArray;
+    var data = window.pins.responseArray;
     var pinsArray = data.slice();
     var pinsFiltred = pinsArray;
 
@@ -23,31 +23,20 @@
     };
 
     var filterPrice = function (pin) {
-      var isCorrect = true;
-
       if (housingPrice.value !== 'any') {
         switch (housingPrice.value) {
 
           case 'low':
-            if (pin.offer.price >= LOW_PRICE) {
-              isCorrect = false;
-            }
-            break;
+            return pin.offer.price < LOW_PRICE;
 
           case 'high':
-            if (pin.offer.price <= HIGH_PRICE) {
-              isCorrect = false;
-            }
-            break;
+            return (pin.offer.price > HIGH_PRICE);
 
           case 'middle':
-            if (pin.offer.price < LOW_PRICE || pin.offer.price > HIGH_PRICE) {
-              isCorrect = false;
-            }
-            break;
+            return (pin.offer.price >= LOW_PRICE && pin.offer.price <= HIGH_PRICE);
         }
       }
-      return isCorrect;
+      return true;
     };
 
     var filterRooms = function (pin) {
@@ -75,7 +64,7 @@
 
       if (featuresValues.length > 0) {
         return featuresValues.every(function (item) {
-          return pin.offer.features.includes(item);
+          return pin.offer.features.indexOf(item) > -1;
         });
       }
       return true;
@@ -85,17 +74,15 @@
       return filterType(elem) && filterPrice(elem) && filterRooms(elem) && filterGuests(elem) && filterFeatures(elem);
     });
 
-    window.card.removeCard();
-    window.pins.renderPins(pinsFiltred);
+    window.card.remove();
+    window.pins.render(pinsFiltred);
 
-  };
-
-  var filterPins = function () {
-    filters.addEventListener('change', window.debounce(onFilterPins));
   };
 
   window.filters = {
-    filterPins: filterPins
+    filteredArray: function () {
+      filters.addEventListener('change', window.debounce(onFilterPins));
+    }
   };
 
 })();

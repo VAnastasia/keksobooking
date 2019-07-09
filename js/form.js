@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var pinMain = document.querySelector('.map__pin--main');
+
   var adForm = document.querySelector('.ad-form');
   var typeOffer = adForm.querySelector('#type');
   var price = adForm.querySelector('#price');
@@ -78,17 +80,10 @@
     selectsFilter.forEach(function (elem) {
       elem.setAttribute('disabled', 'true');
     });
-    // for (var j = 0; j < selectsFilter.length; j++) {
-    //   selectsFilter[j].setAttribute('disabled', 'true');
-    // }
 
     fieldsets.forEach(function (elem) {
       elem.setAttribute('disabled', 'true');
     });
-
-    // for (var i = 0; i < fieldsets.length; i++) {
-    //   fieldsets[i].setAttribute('disabled', 'true');
-    // }
 
     changeMinPrice();
   };
@@ -96,20 +91,12 @@
   // функция активации страницы
 
   var activePage = function () {
-    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
+    window.mainPin.defineCoordinates(pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_HEIGHT);
 
-    window.backend.load(window.pins.addPins, errorHandler, 'GET', window.data.URL_GET_DATA);
-
-    // for (var i = 0; i < fieldsets.length; i++) {
-    //   fieldsets[i].removeAttribute('disabled');
-    // }
-    //
-    // for (var j = 0; j < selectsFilter.length; j++) {
-    //   selectsFilter[j].removeAttribute('disabled');
-    // }
+    window.backend.load(window.pins.add, onError, 'GET', window.data.URL_GET_DATA);
 
     changeCapacity();
-    window.mainPin.pinMain.removeEventListener('mousedown', activePage);
+    pinMain.removeEventListener('mousedown', activePage);
   };
 
   var onEnterPin = function (evt) {
@@ -118,25 +105,25 @@
       activePage();
     }
 
-    window.mainPin.pinMain.removeEventListener('keydown', onEnterPin);
+    pinMain.removeEventListener('keydown', onEnterPin);
   };
 
-  window.mainPin.pinMain.addEventListener('keydown', onEnterPin);
+  pinMain.addEventListener('keydown', onEnterPin);
 
   // неактивное состояние страницы
 
   inactivePage();
-  window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
+  window.mainPin.defineCoordinates(pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
 
   // обработчик активации страницы
 
-  window.mainPin.pinMain.addEventListener('mousedown', activePage);
+  pinMain.addEventListener('mousedown', activePage);
 
   // отправка формы
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.load(successHandler, errorHandler, 'POST', window.data.URL_SET_DATA, new FormData(adForm));
+    window.backend.load(onLoad, onError, 'POST', window.data.URL_SET_DATA, new FormData(adForm));
   });
 
   // сброс формы
@@ -146,31 +133,37 @@
   adFormReset.addEventListener('click', function () {
     resetForm();
     changeCapacity();
-    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
+    window.mainPin.defineCoordinates(pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
   });
 
   var resetForm = function () {
     document.querySelector('.map').classList.add('map--faded');
-    window.mainPin.adForm.classList.add('ad-form--disabled');
-    window.pins.removePins();
-    var previewPhoto = document.querySelectorAll('.ad-form__photo img');
-    window.preview.removePreview(previewPhoto);
+    adForm.classList.add('ad-form--disabled');
+    window.pins.remove();
+
+    var previewPhoto = document.querySelectorAll('.ad-form__photo');
+    window.preview.remove(previewPhoto);
+    var photoContainer = document.createElement('div');
+    photoContainer.className = 'ad-form__photo';
+    document.querySelector('.ad-form__photo-container').appendChild(photoContainer);
     var previewAvatar = document.querySelector('.ad-form-header__preview img');
     previewAvatar.src = window.preview.previewAvatarDefault;
 
-    window.mainPin.pinMain.style.left = window.data.MAIN_PIN_START_X;
-    window.mainPin.pinMain.style.top = window.data.MAIN_PIN_START_Y;
+    pinMain.style.left = window.data.MAIN_PIN_START_X;
+    pinMain.style.top = window.data.MAIN_PIN_START_Y;
 
-    window.mainPin.pinMain.addEventListener('mousedown', activePage);
-    window.card.removeCard();
+    pinMain.addEventListener('mousedown', activePage);
+    window.card.remove();
     adForm.reset();
     filters.reset();
-    window.mainPin.defineCoordinates(window.mainPin.pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
+    window.mainPin.defineCoordinates(pinMain, window.data.MAIN_PIN_WIDTH, window.data.MAIN_PIN_INACTIVE_HALF_HEIGHT);
     changeCapacity();
     inactivePage();
   };
 
-  var successHandler = function () {
+  // успешная загрузка
+
+  var onLoad = function () {
     var successTemplate = document.querySelector('#success')
           .content
           .querySelector('.success');
@@ -195,7 +188,9 @@
     resetForm();
   };
 
-  var errorHandler = function () {
+  // неуспешная загрузка
+
+  var onError = function () {
     var errorTemplate = document.querySelector('#error')
           .content
           .querySelector('.error');

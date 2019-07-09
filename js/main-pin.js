@@ -79,8 +79,6 @@
   pinMain.addEventListener('mousedown', onDragPin);
 
   window.mainPin = {
-    pinMain: pinMain,
-    adForm: adForm,
     addressValue: addressValue,
     defineCoordinates: defineCoordinates
   };

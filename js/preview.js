@@ -27,40 +27,36 @@
   });
 
   var photoChooser = document.querySelector('.ad-form__upload input[type=file]');
-  var photoPreview = document.querySelector('.ad-form__photo');
-
-  var removePreview = function (images) {
-    if (images) {
-      images.forEach(function (image) {
-        image.remove();
-      });
-    }
-  };
 
   photoChooser.addEventListener('change', function () {
-    var images = photoPreview.querySelectorAll('img');
-    removePreview(images);
-
     var files = Array.from(photoChooser.files);
+    document.querySelector('.ad-form__photo').remove();
 
     files.forEach(function (elem) {
       var fileName = elem.name.toLowerCase();
 
-      var matches = FILE_TYPES.some(function (it) {
+      var matchEnd = function (it) {
         return fileName.endsWith(it);
-      });
+      };
+
+      var matches = FILE_TYPES.some(matchEnd);
 
       if (matches) {
         var readerPhoto = new FileReader();
 
-        readerPhoto.addEventListener('load', function () {
+        var onLoadPhoto = function () {
+          var photos = document.querySelector('.ad-form__photo-container');
+          var photoContainer = document.createElement('div');
+          photoContainer.className = 'ad-form__photo';
           var photo = document.createElement('img');
           photo.width = '70';
           photo.height = '70';
-          photoPreview.appendChild(photo);
           photo.src = readerPhoto.result;
-        });
+          photoContainer.appendChild(photo);
+          photos.appendChild(photoContainer);
+        };
 
+        readerPhoto.addEventListener('load', onLoadPhoto);
         readerPhoto.readAsDataURL(elem);
       }
     });
@@ -68,7 +64,13 @@
 
   window.preview = {
     previewAvatarDefault: PREVIEW_AVATAR_DEFAULT,
-    removePreview: removePreview
-  };
 
+    remove: function (images) {
+      if (images) {
+        images.forEach(function (image) {
+          image.remove();
+        });
+      }
+    }
+  };
 })();
